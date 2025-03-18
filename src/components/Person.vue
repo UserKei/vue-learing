@@ -1,32 +1,26 @@
 <template>
     <div class="person">
-        <h2>name: {{ name }}</h2>
-        <h2>age: {{ age }}</h2>
-        <button @click="showTel">check the phone number</button>
-        <button @click="modifyName">modifyName</button>
-        <button @click="modifyAge">modifyAge</button>
+        <h2>{{ sum }}</h2>
+        <button @click="sumAdd">sum+1</button>
     </div>
 </template>
 
-<script setup lang="ts">
-    // console.log(this) setup 中的 this 是 undefined
+<script setup lang="ts" name="Person">
+    import {ref, watch} from 'vue'
 
-    // 非响应式数据
-    let name = "Kei"
-    let age = 20
-    let tel = "11212123"
+    let sum = ref(0)
     
-    function modifyName() {
-        name = "Yuki"
+    function sumAdd() {
+        sum.value += 1
     }
-    
-    function modifyAge() {
-        age += 1
-    }
-    
-    function showTel() {
-        alert(tel)
-    }
+
+    // watch 
+    const stopwatch = watch(sum,(newValue,oldValue)=>{
+        console.log('sum has been changed','new ', newValue, 'old ', oldValue)
+        if(newValue >= 10) {
+            stopwatch() 
+        }
+    })
 </script>
 
 <style scoped>
@@ -37,6 +31,12 @@
         border-radius: 10px;
     }
     button {
+        margin: 5px;
+    }
+    li {
+        font-size: 20px;
+    }
+    input {
         margin: 5px;
     }
 </style>
